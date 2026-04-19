@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>For You ❤️</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* NAV */
+        .navbar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        .navbar button {
+            background: transparent;
+            border: none;
+            color: white;
+            margin-left: 15px;
+            cursor: pointer;
+        }
+
+        .navbar button:hover {
+            color: #ff4d6d;
+        }
+
+        /* GLOW */
+        .center-bg {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, #ff4d6d, transparent);
+            filter: blur(120px);
+            z-index: -1;
+        }
+
+        /* SECTIONS */
+        .section {
+            display: none;
+            padding: 120px 20px;
+            text-align: center;
+        }
+
+        .active {
+            display: block;
+        }
+
+        /* LETTER BUTTONS */
+        .letters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .letter {
+            background: #141414;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        /* ENVELOPE */
+        .envelope {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 120px;
+            background: #ff4d6d;
+            transform: translate(-50%, -50%);
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 60px solid #ff7b95;
+        }
+
+        /* LETTER POPUP */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fffafc;
+            color: black;
+            padding: 25px;
+            border-radius: 12px;
+            width: 320px;
+            max-height: 65vh;
+            overflow-y: auto;
+            font-family: 'Patrick Hand', cursive;
+        }
+
+        /* HEARTS */
+        .heart {
+            position: fixed;
+            color: #ff4d6d;
+            animation: float 6s linear infinite;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(100vh);
+            }
+
+            to {
+                transform: translateY(-10vh);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="center-bg"></div>
+
+    <!-- NAV -->
+    <div class="navbar">
+        <button onclick="showSection('home')">Home</button>
+        <button onclick="showSection('letters')">Letters</button>
+        <button onclick="showSection('music')">Music</button>
+        <button onclick="showSection('me')">Me</button>
+    </div>
+
+    <!-- HOME -->
+    <div id="home" class="section active">
+        <h1 id="typing"></h1>
+    </div>
+
+    <!-- LETTERS -->
+    <div id="letters" class="section">
+        <h2>Letters 💌</h2>
+        <div class="letters">
+            <div class="letter" onclick="startLetter('love')">Love</div>
+            <div class="letter" onclick="startLetter('miss')">Miss</div>
+            <div class="letter" onclick="startLetter('proud')">Proud</div>
+            <div class="letter" onclick="startLetter('motivation')">Motivation</div>
+            <div class="letter" onclick="startLetter('future')">Future</div>
+            <div class="letter" onclick="startLetter('random')">Random</div>
+            <div class="letter" onclick="startLetter('promise')">Promise</div>
+            <div class="letter" onclick="startLetter('thankyou')">Thank You</div>
+        </div>
+    </div>
+
+    <!-- MUSIC -->
+    <div id="music" class="section">
+        <audio controls autoplay loop>
+            <source src="https://youtu.be/8lbRDzhjqeM?si=130Mnw4wYyT4NOQG">
+        </audio>
+    </div>
+
+    <!-- ME -->
+    <div id="me" class="section">
+        <h2>For Myself 🌱</h2>
+        <p>I’m proud of myself for surviving everything. I’m proud of myself for learning how to love again, especially after being scared to try since my last relationship. Akala ko dati pare-pareho lang ang mga tao, but I realized hindi pala, nasa ugali talaga. And ikaw, you’re different… in the best way possible.
+
+            I promise to keep becoming the best version of myself, not just for you but for me too. And I’ll treat you better every day. I know I get a little loud or emotional when I’m jealous—sorry, baby. I’m still learning, but I’m trying.
+
+            I promise to help you with your academics too. Aaralin ko talaga yung lessons mo—even the ones I don’t fully understand yet, mwehehe. I just want to be someone you can rely on, someone who supports you in everything.
+            Thank you for being patient with me, for understanding me, and for staying. You make me feel safe in a way I didn’t think I’d feel again.
+            I love you in all ways—on your good days, your bad days, in your silence, and in your chaos. And I’ll keep choosing you, every single day. 💞</p>
+    </div>
+
+    <!-- ENVELOPE -->
+    <div id="envelope" class="envelope" onclick="openEnvelope()"></div>
+
+    <!-- POPUP -->
+    <div id="popup" class="popup"></div>
+
+    <script>
+        let currentLetter = "";
+
+        /* NAV */
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        /* START LETTER */
+        function startLetter(type) {
+            currentLetter = type;
+            document.getElementById("envelope").style.display = "block";
+        }
+
+        /* OPEN ENVELOPE */
+        function openEnvelope() {
+            document.getElementById("envelope").style.display = "none";
+            showLetter(currentLetter);
+        }
+
+        /* LETTER CONTENT */
+        function showLetter(type) {
+            let content = {
+                love: "Hi love... Hi love, I love you even though there’s no chance of us being together. But I promise to stay, to grow with you as much as I can, and to guide you always. Kahit sa ganitong paraan lang kita kayang mahalin, I’ll still choose you—quietly, patiently, and sincerely.",
+                miss: "Miss na miss na kita.. Arghh, miss na miss na kita—like sobra. Bakit wala ka today? 💔 Parang ang tahimik tuloy. But I know you’re enjoying yourself, so okay lang. Masaya na rin ako knowing na masaya ka.",
+                proud: "I'm always proud of you, I’m always proud of you, whether maliit or malaking achievement man ‘yan, because I know you always do your best. Nakikita ko lahat ng effort mo, even the ones you think no one notices.",
+                motivation: "Keep going,baby. I know kaya mo ‘to—lalo na sa pasukan mo. Padayon, my IT. I’ll always be here, cheering for you from where I stand.",
+                future: "If I don’t get to spend my future with you, then I just hope you become the person I’m trying to build right now—someone happy, strong, and fulfilled. Someone who gets everything they deserve in life.",
+                random: "Miss na kita baby, sana alam mo na importante ka sakin and i appreciate you a lot.",
+                promise: "I promise to stay hangga’t hindi ka pa nagkakagusto sa iba. And even if that day comes, I’ll still be grateful that I got to love you like this. 💞",
+                thankyou: "Thank you for everything like everything. For helping me, for being understanding, and for always giving your best. You’ve become one of the reasons why I keep going too."
+            };
+
+            let popup = document.getElementById("popup");
+            popup.innerHTML = `
+    <h3>${type.toUpperCase()}</h3>
+    <small>Dedicated to: Leih 💌</small>
+    <p>${content[type]}</p>
+    <br><button onclick="closePop()">Close</button>
+  `;
+            popup.style.display = "block";
+        }
+
+        function closePop() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        /* TYPING */
+        let text = "Hi ❤️ I made this for you...";
+        let i = 0;
+
+        function type() {
+            if (i < text.length) {
+                document.getElementById("typing").innerHTML += text[i];
+                i++;
+                setTimeout(type, 50);
+            }
+        }
+        type();
+
+        /* HEARTS */
+        setInterval(() => {
+            let h = document.createElement("div");
+            h.className = "heart";
+            h.innerHTML = "❤️";
+            h.style.left = Math.random() * 100 + "vw";
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 6000);
+        }, 500);
+    </script>
+
+</body>
+
+</html>
